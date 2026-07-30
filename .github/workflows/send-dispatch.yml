@@ -1,0 +1,21 @@
+name: Send repository dispatch
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send event
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST \
+            "repos/${{ github.repository }}/dispatches" \
+            --raw-field event_type='sample_event' \
+            --raw-field 'client_payload[message]=Triggered through repository_dispatch'
+          echo "Dispatch request accepted."
