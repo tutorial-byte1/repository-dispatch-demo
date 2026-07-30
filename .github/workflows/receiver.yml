@@ -1,0 +1,15 @@
+name: Repository dispatch receiver
+
+on:
+  repository_dispatch:
+    types: [sample_event]
+
+jobs:
+  show-payload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show payload
+        env:
+          MESSAGE: ${{ github.event.client_payload.message }}
+        run: |
+          echo "Message: $MESSAGE"
